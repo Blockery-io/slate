@@ -1,0 +1,10 @@
+version: "3.5"
+
+services:
+  slate:
+    build: .
+    volumes:
+      - ./source:/srv/slate/source
+    ports:
+      - "4567:4567"
+    command: serve
