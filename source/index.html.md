@@ -5,15 +5,9 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - shell
   - python
   - javascript
-  - java
-  - csharp
-  - scala
-  - rust
-  - go
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='app.blockery.io'>Sign-Up for a Blockery Account</a>
 
 includes:
   - errors
@@ -24,55 +18,47 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentation for the Blockery Public API
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Blockery API! You can use our API to access Blockery API endpoints, which can execute actions in your organization's on-chain wallet.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Shell, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
+import requests
+r=requests.get("http://www.example.com/", headers={"Authorization":"Bearer yourapikey"})
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: yourapikey"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const blockery = require('blockery');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = blockery.authorize('meowmeowmeow');
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `yourapikey` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Blockery uses API keys to allow access to the API. You can register a new Blockery API key at our [developer portal](http://example.com/developers).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+Blockery expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: meowmeowmeow`
+`Authorization: Bearer yourapikey`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>yourapikey</code> with an API key registered to your organization.
 </aside>
 
 # Kittens
@@ -80,16 +66,16 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 ## Get All Kittens
 
 ```ruby
-require 'kittn'
+require 'blockery'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = Blockery::APIClient.authorize!('meowmeowmeow')
 api.kittens.get
 ```
 
 ```python
-import kittn
+import blockery
 
-api = kittn.authorize('meowmeowmeow')
+api = blockery.authorize('meowmeowmeow')
 api.kittens.get()
 ```
 
@@ -99,9 +85,9 @@ curl "http://example.com/api/kittens" \
 ```
 
 ```javascript
-const kittn = require('kittn');
+const blockery = require('blockery');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = blockery.authorize('meowmeowmeow');
 let kittens = api.kittens.get();
 ```
 
@@ -146,16 +132,16 @@ Remember — a happy kitten is an authenticated kitten!
 ## Get a Specific Kitten
 
 ```ruby
-require 'kittn'
+require 'blockery'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = Blockery::APIClient.authorize!('meowmeowmeow')
 api.kittens.get(2)
 ```
 
 ```python
-import kittn
+import blockery
 
-api = kittn.authorize('meowmeowmeow')
+api = blockery.authorize('meowmeowmeow')
 api.kittens.get(2)
 ```
 
@@ -165,9 +151,9 @@ curl "http://example.com/api/kittens/2" \
 ```
 
 ```javascript
-const kittn = require('kittn');
+const blockery = require('blockery');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = blockery.authorize('meowmeowmeow');
 let max = api.kittens.get(2);
 ```
 
@@ -200,16 +186,16 @@ ID | The ID of the kitten to retrieve
 ## Delete a Specific Kitten
 
 ```ruby
-require 'kittn'
+require 'blockery'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = Blockery::APIClient.authorize!('meowmeowmeow')
 api.kittens.delete(2)
 ```
 
 ```python
-import kittn
+import blockery
 
-api = kittn.authorize('meowmeowmeow')
+api = blockery.authorize('meowmeowmeow')
 api.kittens.delete(2)
 ```
 
@@ -220,9 +206,9 @@ curl "http://example.com/api/kittens/2" \
 ```
 
 ```javascript
-const kittn = require('kittn');
+const blockery = require('blockery');
 
-let api = kittn.authorize('meowmeowmeow');
+let api = blockery.authorize('meowmeowmeow');
 let max = api.kittens.delete(2);
 ```
 
