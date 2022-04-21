@@ -7,7 +7,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='app.blockery.io'>Sign-Up for a Blockery Account</a>
+  - <a href='https://app.blockery.io'>Sign-Up for a Blockery Account</a>
 
 includes:
   - errors
