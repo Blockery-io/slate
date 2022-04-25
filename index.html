@@ -321,10 +321,13 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#transaction" class="toc-h1 toc-link" data-title="Transaction">Transaction</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#http-request" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                  </li>
+                  <li>
+                    <a href="#create-a-new-transaction" class="toc-h2 toc-link" data-title="Create a new Transaction">Create a new Transaction</a>
                   </li>
                   <li>
                     <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
@@ -354,13 +357,22 @@
 <p>To authorize, use this code:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"http://www.example.com/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span><span class="s">"Bearer yourapikey"</span><span class="p">})</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"http://www.example.com/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span><span class="s">"Bearer yourapikey"</span><span class="p">})</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
 curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: yourapikey"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">blockery</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">blockery</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">https</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">https</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">blockery</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">hostname</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://api.blockery.io</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/get</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer yourapikey</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">https</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="p">});</span>
 </code></pre></div>
 <blockquote>
 <p>Make sure to replace <code>yourapikey</code> with your API key.</p>
@@ -375,43 +387,130 @@ curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
 <aside class="notice">
 You must replace <code>yourapikey</code> with an API key registered to your organization.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'blockery'</span>
+<h1 id='transaction'>Transaction</h1><h3 id='http-request'>HTTP Request</h3>
+<p><code>POST https://app.blockery.io/api/v1/transaction</code></p>
+<h2 id='create-a-new-transaction'>Create a new Transaction</h2><h4 id='body-structure'>Body Structure</h4>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>user_specified_id</td>
+<td>string</td>
+<td>This id will follow the transaction through it&#39;s entire lifecycle and be returned in any success or error messaging. It&#39;s purpose is to allow users to track a transaction as it moves through their system passing in and out of blockery. The value is arbitrarily supplied by the user. It has no effect on business logic.</td>
+</tr>
+<tr>
+<td>outputs</td>
+<td>Output</td>
+<td>Each output represents a &quot;Transaction Output&quot;. The objects represent what people typically think of as a transaction on the blockchain.</td>
+</tr>
+</tbody></table>
+<h4 id='output-structure'>Output Structure</h4>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Optional</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assets</td>
+<td>Asset</td>
+<td>True</td>
+<td>These are tokens which the user is moving our of their wallet.</td>
+</tr>
+<tr>
+<td>lovelace_amount</td>
+<td>Integer</td>
+<td>Fuzzy</td>
+<td>The number of lovelace to send in this output. Lovelace will always be included in an output even if you don&#39;t specify it here explicitly.  If you do not include a <code>lovelace_amount</code> in an Output, the system will automatically calculate and include the minimum amount necessary to send with your included assets.</td>
+</tr>
+<tr>
+<td>receive_address</td>
+<td>string</td>
+<td>False</td>
+<td>The destination address to send the assets and ada described in this Output.</td>
+</tr>
+</tbody></table>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Blockery</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">blockery</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">blockery</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">blockery</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">blockery</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">blockery</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+<aside class="success">
+Remember — You are not required to send `assets` in a transaction. But you must send something! Omitting assets and lovelace will result in validation failure.
+</aside>
+<h4 id='assets-structure'>Assets Structure</h4>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>The name of the asset. Provide the utf-8 encoded version (ie. human readable)</td>
+</tr>
+<tr>
+<td>policy_id</td>
+<td>String</td>
+<td>The policy id used to mint this asset</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Integer</td>
+<td>How any of the asset to send</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://app.blockery.io/api/v1/transaction"</span><span class="p">,</span>
+                  <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span><span class="s">"Bearer yourapikey"</span><span class="p">},</span>
+                  <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+                      <span class="s">"user_specified_id"</span><span class="p">:</span> <span class="s">"customid01"</span><span class="p">,</span>
+                      <span class="s">"outputs"</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="p">{</span>
+                              <span class="s">"assets"</span><span class="p">:</span> <span class="p">[</span>
+                                  <span class="p">{</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"blockery"</span><span class="p">,</span> <span class="s">"policy_id"</span><span class="p">:</span> <span class="s">"3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad"</span><span class="p">,</span> <span class="s">"quantity"</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+                              <span class="p">],</span>
+                              <span class="s">"lovelace_amount"</span><span class="p">:</span> <span class="mi">200000</span><span class="p">,</span>
+                              <span class="s">"receive_address"</span><span class="p">:</span> <span class="s">"addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum"</span>
+                          <span class="p">}</span>
+                      <span class="p">]</span>
+                  <span class="p">}</span>
+                  <span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">-d</span> <span class="s1">'{"user_specified_id": "customid01", "outputs": [ { "assets": [ {"name": "blockery", "policy_id": "3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad", "quantity": 100}], "lovelace_amount": 200000, "receive_address": "addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum"}]}'</span> <span class="nt">-H</span> <span class="s2">"Authorization: Bearer yourapikey"</span> <span class="nt">-X</span> POST https://app.blockery.io/api/v1/transaction
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://api.randomservice.com/dog</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">content-type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer yourapikey</span><span class="dl">'</span>
+  <span class="p">},</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">user_specified_id</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">customid01</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">outputs</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="dl">"</span><span class="s2">assets</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span><span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">blockery</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">policy_id</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">quantity</span><span class="dl">"</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+        <span class="p">],</span>
+        <span class="dl">"</span><span class="s2">lovelace_amount</span><span class="dl">"</span><span class="p">:</span> <span class="mi">200000</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">receive_address</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum</span><span class="dl">"</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">});</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"follow_up_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1QQvUKfn7KMiWdHIE7KS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"user_specified_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
+<p>This endpoint is used in order to send assets from your organization wallet to an address which you specify.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
 <p><code>GET http://example.com/api/kittens</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
@@ -465,7 +564,7 @@ Remember — a happy kitten is an authenticated kitten!
 <p>This endpoint retrieves a specific kitten.</p>
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
+<h3 id='http-request-3'>HTTP Request</h3>
 <p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
@@ -504,7 +603,7 @@ Remember — a happy kitten is an authenticated kitten!
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
+<h3 id='http-request-4'>HTTP Request</h3>
 <p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
