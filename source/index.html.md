@@ -70,8 +70,7 @@ Blockery expects for the API key to be included in all API requests to the serve
 You must replace <code>yourapikey</code> with an API key registered to your organization.
 </aside>
 
-# Resources
-
+# Transaction 
 ## Create a new Transaction
 
 This endpoint is used in order to send assets from your organization wallet to an address which you specify.
@@ -80,7 +79,7 @@ This endpoint is used in order to send assets from your organization wallet to a
 
 `POST https://app.blockery.io/api/v1/transaction`
 
-## Request Details
+### Request Details
 
 ```python
 import requests
@@ -164,7 +163,7 @@ quantity | Integer | How any of the asset to send
 
 
 
-
+## Get a Transaction 
 ### HTTP Request
 
 `GET http://example.com/api/kittens`
