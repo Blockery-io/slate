@@ -76,33 +76,7 @@ You must replace <code>yourapikey</code> with an API key registered to your orga
 
 `POST https://app.blockery.io/api/v1/transaction`
 
-## Create a new Transaction
-
-#### Body Structure
-
-Field | Type | Description
---------- | ------- | -----------
-user_specified_id | string | This id will follow the transaction through it's entire lifecycle and be returned in any success or error messaging. It's purpose is to allow users to track a transaction as it moves through their system passing in and out of blockery. The value is arbitrarily supplied by the user. It has no effect on business logic.
-outputs | Output | Each output represents a "Transaction Output". The objects represent what people typically think of as a transaction on the blockchain.
-
-#### Output Structure
-
-Field | Type | Optional |  Description
---------- | ------- | ----------- | -----
-assets | Asset | True | These are tokens which the user is moving our of their wallet.
-lovelace_amount | Integer | Fuzzy |The number of lovelace to send in this output. Lovelace will always be included in an output even if you don't specify it here explicitly.  If you do not include a `lovelace_amount` in an Output, the system will automatically calculate and include the minimum amount necessary to send with your included assets.
-receive_address | string | False | The destination address to send the assets and ada described in this Output.
-<aside class="success">
-Remember — You are not required to send `assets` in a transaction. But you must send something! Omitting assets and lovelace will result in validation failure.
-</aside>
-
-#### Assets Structure
-
-Field | Type | Description
---------- | ------- | -----------
-name | String | The name of the asset. Provide the utf-8 encoded version (ie. human readable)
-policy_id | String | The policy id used to mint this asset
-quantity | Integer | How any of the asset to send
+This endpoint is used in order to send assets from your organization wallet to an address which you specify.
 
 ```python
 import requests
@@ -158,7 +132,36 @@ fetch('https://api.randomservice.com/dog', {
   }
 ```
 
-This endpoint is used in order to send assets from your organization wallet to an address which you specify.
+## Create a new Transaction
+
+#### Body Structure
+
+Field | Type | Description
+--------- | ------- | -----------
+user_specified_id | string | This id will follow the transaction through it's entire lifecycle and be returned in any success or error messaging. It's purpose is to allow users to track a transaction as it moves through their system passing in and out of blockery. The value is arbitrarily supplied by the user. It has no effect on business logic.
+outputs | Output | Each output represents a "Transaction Output". The objects represent what people typically think of as a transaction on the blockchain.
+
+#### Output Structure
+
+Field | Type | Optional |  Description
+--------- | ------- | ----------- | -----
+assets | Asset | True | These are tokens which the user is moving our of their wallet.
+lovelace_amount | Integer | Fuzzy |The number of lovelace to send in this output. Lovelace will always be included in an output even if you don't specify it here explicitly.  If you do not include a `lovelace_amount` in an Output, the system will automatically calculate and include the minimum amount necessary to send with your included assets.
+receive_address | string | False | The destination address to send the assets and ada described in this Output.
+<aside class="success">
+Remember — You are not required to send `assets` in a transaction. But you must send something! Omitting assets and lovelace will result in validation failure.
+</aside>
+
+#### Assets Structure
+
+Field | Type | Description
+--------- | ------- | -----------
+name | String | The name of the asset. Provide the utf-8 encoded version (ie. human readable)
+policy_id | String | The policy id used to mint this asset
+quantity | Integer | How any of the asset to send
+
+
+
 
 ### HTTP Request
 
