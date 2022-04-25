@@ -72,6 +72,14 @@ You must replace <code>yourapikey</code> with an API key registered to your orga
 
 ## Transaction
 
+This endpoint is used in order to send assets from your organization wallet to an address which you specify.
+
+### HTTP Request
+
+`POST https://app.blockery.io/api/v1/transaction`
+
+## Create a new Transaction
+
 ```python
 import requests
 r = requests.post("https://app.blockery.io/api/v1/transaction",
@@ -96,7 +104,7 @@ curl -d '{"user_specified_id": "customid01", "outputs": [ { "assets": [ {"name":
 ```
 
 ```javascript
-fetch('https://api.randomservice.com/dog', {
+fetch('https://app.blockery.io/api/v1/transaction', {
   method: 'POST',
   headers: {
     'content-type': 'application/json',
@@ -125,13 +133,6 @@ fetch('https://api.randomservice.com/dog', {
     "user_specified_id": "1"
   }
 ```
-This endpoint is used in order to send assets from your organization wallet to an address which you specify.
-
-### HTTP Request
-
-`POST https://app.blockery.io/api/v1/transaction`
-
-## Create a new Transaction
 
 #### Body Structure
 
