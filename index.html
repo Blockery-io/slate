@@ -384,7 +384,11 @@ curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
 <aside class="notice">
 You must replace <code>yourapikey</code> with an API key registered to your organization.
 </aside>
-<h2 id='transaction'>Transaction</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<h2 id='transaction'>Transaction</h2>
+<p>This endpoint is used in order to send assets from your organization wallet to an address which you specify.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>POST https://app.blockery.io/api/v1/transaction</code></p>
+<h2 id='create-a-new-transaction'>Create a new Transaction</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://app.blockery.io/api/v1/transaction"</span><span class="p">,</span>
                   <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span><span class="s">"Bearer yourapikey"</span><span class="p">},</span>
                   <span class="n">data</span><span class="o">=</span><span class="p">{</span>
@@ -401,7 +405,7 @@ You must replace <code>yourapikey</code> with an API key registered to your orga
                   <span class="p">}</span>
                   <span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">-d</span> <span class="s1">'{"user_specified_id": "customid01", "outputs": [ { "assets": [ {"name": "blockery", "policy_id": "3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad", "quantity": 100}], "lovelace_amount": 200000, "receive_address": "addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum"}]}'</span> <span class="nt">-H</span> <span class="s2">"Authorization: Bearer yourapikey"</span> <span class="nt">-X</span> POST https://app.blockery.io/api/v1/transaction
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://api.randomservice.com/dog</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://app.blockery.io/api/v1/transaction</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
     <span class="dl">'</span><span class="s1">content-type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
@@ -428,11 +432,7 @@ You must replace <code>yourapikey</code> with an API key registered to your orga
     </span><span class="nl">"follow_up_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1QQvUKfn7KMiWdHIE7KS"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"user_specified_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint is used in order to send assets from your organization wallet to an address which you specify.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>POST https://app.blockery.io/api/v1/transaction</code></p>
-<h2 id='create-a-new-transaction'>Create a new Transaction</h2><h4 id='body-structure'>Body Structure</h4>
+</span></code></pre></div><h4 id='body-structure'>Body Structure</h4>
 <table><thead>
 <tr>
 <th>Field</th>
