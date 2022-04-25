@@ -321,13 +321,13 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#resources" class="toc-h1 toc-link" data-title="Resources">Resources</a>
+            <a href="#transaction" class="toc-h1 toc-link" data-title="Transaction">Transaction</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-a-new-transaction" class="toc-h2 toc-link" data-title="Create a new Transaction">Create a new Transaction</a>
                   </li>
                   <li>
-                    <a href="#request-details" class="toc-h2 toc-link" data-title="Request Details">Request Details</a>
+                    <a href="#get-a-transaction" class="toc-h2 toc-link" data-title="Get a Transaction">Get a Transaction</a>
                   </li>
                   <li>
                     <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
@@ -387,11 +387,11 @@ curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
 <aside class="notice">
 You must replace <code>yourapikey</code> with an API key registered to your organization.
 </aside>
-<h1 id='resources'>Resources</h1><h2 id='create-a-new-transaction'>Create a new Transaction</h2>
+<h1 id='transaction'>Transaction</h1><h2 id='create-a-new-transaction'>Create a new Transaction</h2>
 <p>This endpoint is used in order to send assets from your organization wallet to an address which you specify.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>POST https://app.blockery.io/api/v1/transaction</code></p>
-<h2 id='request-details'>Request Details</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<h3 id='request-details'>Request Details</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://app.blockery.io/api/v1/transaction"</span><span class="p">,</span>
                   <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span><span class="s">"Bearer yourapikey"</span><span class="p">},</span>
                   <span class="n">data</span><span class="o">=</span><span class="p">{</span>
@@ -510,7 +510,7 @@ Remember — You are not required to send `assets` in a transaction. But you mus
 <td>How any of the asset to send</td>
 </tr>
 </tbody></table>
-<h3 id='http-request-2'>HTTP Request</h3>
+<h2 id='get-a-transaction'>Get a Transaction</h2><h3 id='http-request-2'>HTTP Request</h3>
 <p><code>GET http://example.com/api/kittens</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
