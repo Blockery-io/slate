@@ -34,7 +34,7 @@ We have language bindings in Shell, Python, and JavaScript! You can view code ex
 
 ```python
 import requests
-r=requests.get("http://www.example.com/", headers={"Authorization":"Bearer yourapikey"})
+r = requests.get("http://www.example.com/", headers={"Authorization":"Bearer yourapikey"})
 ```
 
 ```shell
@@ -44,9 +44,18 @@ curl "api_endpoint_here" \
 ```
 
 ```javascript
-const blockery = require('blockery');
+const https = require('https');
 
-let api = blockery.authorize('meowmeowmeow');
+const options = {
+  hostname: 'https://api.blockery.io',
+  path: '/get',
+  headers: {
+    Authorization: 'Bearer yourapikey'
+  }
+}
+
+const request = https.get(options, (res) => {
+});
 ```
 
 > Make sure to replace `yourapikey` with your API key.
@@ -61,58 +70,95 @@ Blockery expects for the API key to be included in all API requests to the serve
 You must replace <code>yourapikey</code> with an API key registered to your organization.
 </aside>
 
-# Kittens
+# Transaction
 
-## Get All Kittens
+### HTTP Request
 
-```ruby
-require 'blockery'
+`POST https://app.blockery.io/api/v1/transaction`
 
-api = Blockery::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+## Create a new Transaction
+
+#### Body Structure
+
+Field | Type | Description
+--------- | ------- | -----------
+user_specified_id | string | This id will follow the transaction through it's entire lifecycle and be returned in any success or error messaging. It's purpose is to allow users to track a transaction as it moves through their system passing in and out of blockery. The value is arbitrarily supplied by the user. It has no effect on business logic.
+outputs | Output | Each output represents a "Transaction Output". The objects represent what people typically think of as a transaction on the blockchain.
+
+#### Output Structure
+
+Field | Type | Optional |  Description
+--------- | ------- | ----------- | -----
+assets | Asset | True | These are tokens which the user is moving our of their wallet.
+lovelace_amount | Integer | Fuzzy |The number of lovelace to send in this output. Lovelace will always be included in an output even if you don't specify it here explicitly.  If you do not include a `lovelace_amount` in an Output, the system will automatically calculate and include the minimum amount necessary to send with your included assets.
+receive_address | string | False | The destination address to send the assets and ada described in this Output.
+<aside class="success">
+Remember — You are not required to send `assets` in a transaction. But you must send something! Omitting assets and lovelace will result in validation failure.
+</aside>
+
+#### Assets Structure
+
+Field | Type | Description
+--------- | ------- | -----------
+name | String | The name of the asset. Provide the utf-8 encoded version (ie. human readable)
+policy_id | String | The policy id used to mint this asset
+quantity | Integer | How any of the asset to send
 
 ```python
-import blockery
-
-api = blockery.authorize('meowmeowmeow')
-api.kittens.get()
+import requests
+r = requests.post("https://app.blockery.io/api/v1/transaction",
+                  headers={"Authorization":"Bearer yourapikey"},
+                  data={
+                      "user_specified_id": "customid01",
+                      "outputs": [
+                          {
+                              "assets": [
+                                  {"name": "blockery", "policy_id": "3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad", "quantity": 100}
+                              ],
+                              "lovelace_amount": 200000,
+                              "receive_address": "addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum"
+                          }
+                      ]
+                  }
+                  )
 ```
 
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+curl -d '{"user_specified_id": "customid01", "outputs": [ { "assets": [ {"name": "blockery", "policy_id": "3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad", "quantity": 100}], "lovelace_amount": 200000, "receive_address": "addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum"}]}' -H "Authorization: Bearer yourapikey" -X POST https://app.blockery.io/api/v1/transaction
 ```
 
 ```javascript
-const blockery = require('blockery');
-
-let api = blockery.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+fetch('https://api.randomservice.com/dog', {
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json',
+    'Authorization': 'Bearer yourapikey'
+  },
+  body: {
+    "user_specified_id": "customid01",
+    "outputs": [
+      {
+        "assets": [
+          {"name": "blockery", "policy_id": "3e3fa92bedc164c008a30fbc61d3d1fda9fa7137ab673e8237190aad", "quantity": 100}
+        ],
+        "lovelace_amount": 200000,
+        "receive_address": "addr_test1qz5atj4zxa3h534z3j7e40nwds8g3lhs2ms9f0s8geufvcar5waft2yukqkmxksdgn0rxwtn2sy2tpheq5gcrhea6caqeakqum"
+      }
+    ]
+  }
+});
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "follow_up_id": "1QQvUKfn7KMiWdHIE7KS",
+    "user_specified_id": "1"
   }
-]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint is used in order to send assets from your organization wallet to an address which you specify.
 
 ### HTTP Request
 
