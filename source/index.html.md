@@ -60,7 +60,7 @@ const request = https.get(options, (res) => {
 
 > Make sure to replace `yourapikey` with your API key.
 
-Blockery uses API keys to allow access to the API. You can register a new Blockery API key at our [developer portal](http://example.com/developers).
+Blockery uses API keys to allow access to the API. You can obtain a new Blockery API key by registering your company at our [developer portal](https://app.blockery.io).
 
 Blockery expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
